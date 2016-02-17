@@ -13,6 +13,8 @@ int main()
 	struct county list[76000];
 	struct county temp;
 
+	int counter=0;
+//PARSE DATA AND FILL ARRAY
 	data.open("pop_density.txt");
 	//fill array
 	while(getline(data,input))
@@ -28,12 +30,19 @@ int main()
 		getline(ss,token,'|');
 		
 		ss>>temp.density;		
-		
+		list[counter]=temp;
+		counter++;
 
 	}
-
+/*	print array for proof of fill
+	for(int i=0; i<76000;i++)
+	{
+		cout<<list[i].name<<endl;
+	}
 	data.close();
+*/
 
+//	SORT DATA USING MERGESORT
 
 	return 0;
 }
