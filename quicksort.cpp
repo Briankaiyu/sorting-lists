@@ -36,8 +36,11 @@ int main()
 		counter++;
 	}
 //	SORT DATA USING QUICKSORT
+	clock_t begin=clock();
 	quicksort(list,0,SIZE-1);
-	
+	clock_t end = clock()-begin;
+
+	cout<<"Sorting procedure took "<<end<< " clicks to complete"<<endl;
 	for(int i=0;i <SIZE;i++)
 	{
 		output<<list[i].name<<'|'<<list[i].area<<'|'<<list[i].population<<'|';
