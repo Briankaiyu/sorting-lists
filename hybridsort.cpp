@@ -10,6 +10,7 @@ using namespace std;
 
 void quicksort(struct county list[], int left, int right);
 struct county median3(struct county list[], int left,  int right);
+void insertionSort(struct county list[], int left, int right);
 int main()
 {
 	ofstream output;
@@ -49,38 +50,42 @@ int main()
 void quicksort(struct county list[], int left, int right)
 {
 	//this is just regular quicksort
-	//normally would have an if(left + 20 <=right) to lead into insertion Sort
-	if(left<right)
-{
-	struct county pivot=median3(list,left,right);
 	
-	struct county temp;
-	//begin partitioning
-	int i=left, j= right-1;
-	for( ; ;)
+	if(left+20<right)
 	{
-	
-		while(list[++i].density < pivot.density){}
-	
-		while(pivot.density <list[--j].density){}
-	
-		if(i<j)
+		struct county pivot=median3(list,left,right);
+		
+		struct county temp;
+		//begin partitioning
+		int i=left, j= right-1;
+		for( ; ;)
 		{
-			temp=list[i];
-			list[i]=list[j];
-			list[j]=temp;
+		
+			while(list[++i].density < pivot.density){}
+		
+			while(pivot.density <list[--j].density){}
+		
+			if(i<j)
+			{
+				temp=list[i];
+				list[i]=list[j];
+				list[j]=temp;
+			}
+			else
+				break;
 		}
-		else
-			break;
+		//restore pivot
+		temp=list[i];
+		list[i]=list[right-1];
+		list[right-1]=temp;
+	
+		quicksort(list,left,i-1);
+		quicksort(list,i+1,right);
 	}
-	//restore pivot
-	temp=list[i];
-	list[i]=list[right-1];
-	list[right-1]=temp;
-
-	quicksort(list,left,i-1);
-	quicksort(list,i+1,right);
-}
+	else
+	{
+		insertionSort(list,left,right);
+	}
 }
 struct county median3 (struct county list[], int left, int right)
 {
@@ -111,4 +116,18 @@ struct county median3 (struct county list[], int left, int right)
 	list[right-1]=list[center];
 	
 	return list[right-1];
+}
+
+void insertionSort(struct county list[], int left, int right)
+{
+	
+	for(int i=left; i<=right;i++)
+	{
+		struct county temp=list[i];
+		
+		int x;
+		for(x=i; x>0 && temp.density<list[x-1].density; --x)
+			list[x]= list[x-1];
+		list[x]=temp;
+	}
 }
