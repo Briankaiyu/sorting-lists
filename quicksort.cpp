@@ -61,39 +61,38 @@ void quicksort(struct county list[], int left, int right)
 {
 	//this is just regular quicksort
 	//normally would have an if(left + 20 <=right) to lead into insertion Sort
-	if(left<right)
+	if(left+1<=right)
 	{
 		//set pivot by median of 3
 		struct county pivot=median3(list,left,right);
 		
 		struct county temp;
 		//begin partitioning
-		int i=left, j= right-1;
-		for( ; ;)
+		int i=left, j= right;
+		while( i<= j)
 		{
 		
 			//increment counters
-			while(list[++i].density < pivot.density){}
+			while(list[i].density < pivot.density)
+				i++;
 		
-			while(pivot.density <list[--j].density){}
-		
+			while(pivot.density <list[j].density)
+				j--;
 			//sort until not needed then break
-			if(i<j)
+			if(i<=j)
 			{
 				temp=list[i];
 				list[i]=list[j];
 				list[j]=temp;
+				i++;
+				j--;
 			}
-			else
-				break;
 		}
-		//restore pivot
-		temp=list[i];
-		list[i]=list[right-1];
-		list[right-1]=temp;
-	
-		quicksort(list,left,i-1);
-		quicksort(list,i+1,right);
+		//restore pivot	
+		if(left<j)
+			quicksort(list,left,j);
+		if(i<right)
+			quicksort(list,i,right);
 	}
 }
 //sort and then pick median
